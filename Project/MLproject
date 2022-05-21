@@ -1,0 +1,14 @@
+# sklearn_elasticnet_wine/MLproject
+
+name: LaptopPricePrediction
+
+conda_env: conda.yaml
+
+entry_points:
+  main:
+    parameters:
+      n_estimators: integer
+      max_samples: float
+      max_features: float
+      max_depth: float
+    command: "python train.py {n_estimators} {max_samples} {max_features} {max_depth}"
