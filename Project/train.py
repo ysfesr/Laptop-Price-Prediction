@@ -98,7 +98,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 n_estimators = int(sys.argv[1])
 max_samples = float(sys.argv[2])
 max_features = float(sys.argv[3])
-max_depth = int(sys.argv[4])
+max_depth = sys.argv[4]
 
 # experiment = mlflow.set_experiment("LaptopPricePrediction")
 
