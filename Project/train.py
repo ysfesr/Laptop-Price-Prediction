@@ -95,10 +95,10 @@ y = data['Price_euros']
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.15, random_state=2)
 
-n_estimators = int(sys.argv[1]) if len(sys.argv) > 1 else 350
-max_samples = float(sys.argv[2]) if len(sys.argv) > 2 else 0.5
-max_features = float(sys.argv[3]) if len(sys.argv) > 3 else 0.75
-max_depth = int(sys.argv[4]) if len(sys.argv) > 4 else None
+n_estimators = int(sys.argv[1])
+max_samples = float(sys.argv[2])
+max_features = float(sys.argv[3])
+max_depth = int(sys.argv[4])
 
 # experiment = mlflow.set_experiment("LaptopPricePrediction")
 
