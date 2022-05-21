@@ -97,12 +97,12 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 n_estimators = int(sys.argv[1]) if len(sys.argv) > 1 else 350
 max_samples = float(sys.argv[2]) if len(sys.argv) > 2 else 0.5
-max_features = float(sys.argv[2]) if len(sys.argv) > 3 else 0.75
-max_depth = int(sys.argv[2]) if len(sys.argv) > 4 else 15
+max_features = float(sys.argv[3]) if len(sys.argv) > 3 else 0.75
+max_depth = int(sys.argv[4]) if len(sys.argv) > 4 else None
 
-experiment = mlflow.set_experiment("LaptopPricePrediction")
+# experiment = mlflow.set_experiment("LaptopPricePrediction")
 
-with mlflow.start_run(experiment_id=experiment.experiment_id):
+with mlflow.start_run():
     Transformer = ColumnTransformer(
         transformers=[
             ('col_tnf', OneHotEncoder(
