@@ -8,7 +8,7 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.metrics import r2_score, mean_absolute_error
 from sklearn.ensemble import VotingRegressor
-from sklearn.ensemble import RandomForestRegressor,GradientBoostingRegressor,ExtraTreesRegressor
+from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor, ExtraTreesRegressor
 
 import mlflow
 
@@ -56,6 +56,8 @@ data['Touchscreen'] = data['ScreenResolution'].apply(
 data['Ips'] = data['ScreenResolution'].apply(lambda x: 1 if 'IPS' in x else 0)
 
 # Catorizing The Operating System
+
+
 def cat_os(inp):
     if inp == 'Windows 10' or inp == 'Windows 7' or inp == 'Windows 10 S':
         return 'Windows'
@@ -110,8 +112,11 @@ with mlflow.start_run():
                 sparse=False, handle_unknown='ignore'), [
                     0, 1, 5, 6, 9, 10, 11, 13])], remainder='passthrough')
 
-    Regressor = RandomForestRegressor(n_estimators=n_estimators,max_samples=max_samples,max_features=max_features,max_depth=max_depth)
-
+    Regressor = RandomForestRegressor(
+        n_estimators=n_estimators,
+        max_samples=max_samples,
+        max_features=max_features,
+        max_depth=max_depth)
 
     pipe = Pipeline([
         ('transformer', Transformer),
