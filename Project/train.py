@@ -7,6 +7,9 @@ from sklearn.pipeline import Pipeline
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.metrics import r2_score, mean_absolute_error
+from sklearn.ensemble import VotingRegressor
+from sklearn.ensemble import RandomForestRegressor,GradientBoostingRegressor,ExtraTreesRegressor
+
 import mlflow
 
 data = pd.read_csv("./datasets/laptops.csv", encoding='latin-1')
@@ -98,9 +101,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 n_estimators = int(sys.argv[1])
 max_samples = float(sys.argv[2])
 max_features = float(sys.argv[3])
-max_depth = sys.argv[4]
-
-# experiment = mlflow.set_experiment("LaptopPricePrediction")
+max_depth = None if sys.argv[4] == 'None' else int(sys.argv[4])
 
 with mlflow.start_run():
     Transformer = ColumnTransformer(
@@ -109,15 +110,12 @@ with mlflow.start_run():
                 sparse=False, handle_unknown='ignore'), [
                     0, 1, 5, 6, 9, 10, 11, 13])], remainder='passthrough')
 
-    rf = RandomForestRegressor(
-        n_estimators=n_estimators,
-        max_samples=max_samples,
-        max_features=max_features,
-        max_depth=max_features)
+    Regressor = RandomForestRegressor(n_estimators=n_estimators,max_samples=max_samples,max_features=max_features,max_depth=max_depth)
+
 
     pipe = Pipeline([
         ('transformer', Transformer),
-        ('Regressor', rf)
+        ('Regressor', Regressor)
     ])
 
     pipe.fit(X_train, y_train)

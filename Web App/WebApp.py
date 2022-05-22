@@ -4,7 +4,7 @@ import numpy as np
 import mlflow
 import os
 
-os.environ['MLFLOW_TRACKING_URI'] = 'http://localhost:5000'
+os.environ['MLFLOW_TRACKING_URI'] = 'http://localhost:5000' 
 os.environ['MLFLOW_S3_ENDPOINT_URL'] = 'http://localhost:9000'
 os.environ['AWS_ACCESS_KEY_ID'] = 'admin'
 os.environ['AWS_SECRET_ACCESS_KEY'] = '123456789'
@@ -46,21 +46,13 @@ with col4:
     weight = st.number_input('Weight (KG))', step=0.05)
     OpSys = st.selectbox('Operating System:',('Mac', 'Others/No OS/Linux', 'Windows'))
 
-def prediction():
-    data = np.array([company, TypeName, Inches, Touchscreen, ips, cpu_vendor,cpu_type,\
-        Ram, storage, storage_type, gpu_vendor, gpu_type, weight, OpSys])
-    data = np.array(["Apple", "Ultrabook", 13.3, 0, 1, "Intel","Core i5",\
-        9, 128, "SSD", "Intel", "Iris Plus Graphics 640", "1.37", "Mac"])
-
-    return LaptopPriceDetection.predict('Apple', 'Ultrabook', 13.3, 0, 1, 'Intel', 'Core i5', 8, 128,
-       'SSD', 'Intel', 'Iris Plus Graphics 640', 1.37, 'Mac')
 
 if st.button("Predict"):
-    cols = ['Company', 'TypeName', 'Inches', 'Touchscreen', 'Ips', 'Cpu_Vender',
-       'Cpu_Type', 'Ram', 'Storage (GB)', 'Storage Type', 'Gpu_Vender',
-       'Gpu_Type', 'Weight', 'OpSys']
-    data = pd.DataFrame([['Apple', 'Ultrabook', 13.3, 0, 1, 'Intel', 'Core i5', 8, 128,'SSD', 'Intel', 'Iris Plus Graphics 640', 1.37, 'Mac']], columns=cols)
+    data = [[company, TypeName, Inches, Touchscreen, ips, cpu_vendor,cpu_type,\
+        Ram, storage, storage_type, gpu_vendor, gpu_type, weight, OpSys]]
+
     price = LaptopPriceDetection.predict(data)
-    st.success(f"Estimated Price: {price}")
+    st.markdown(data)
+    st.success(f"Estimated Price: {round(price[0],2)} EURO")
 
 
