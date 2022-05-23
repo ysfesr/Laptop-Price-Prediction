@@ -7,48 +7,62 @@ Build a supervised machine learning model to predict the price of a laptop based
 ![Home Page](/images/1.png)
 
 
-## Setup
-- Run docker compose 
+## MLflow Project (./Project)
+- First Run docker compose its contain a database to store metadata and an minio image to store artifacts
 ```bash
 docker-compose up
 ```
-
 - Create a bucket in [minio](http://localhost:9001) to store our artifacts (name it mlflow)
+- Launch the Mlflow server
 
-
-- Create a conda virtual environement and active it
 ```bash
-conda env create -f Project/conda.yaml
-conda activate laptopenv
+mlflow server --backend-store-uri postgresql://root:root@localhost:5432/mlflow_db --default-artifact-root s3://mlflow/ --host 0.0.0.0
 ```
 
 - You can now train your models by running the Project
 ```bash
-mlflow run .\Project\ --experiment-name example -P n_estimators=1000 -P max_samples=0.5 -P max_features=0.75 -P max_depth=30
+cd ./Project
+mlflow run . --experiment-name <example-name> -P n_estimators=1000 -P max_samples=0.5 -P max_features=0.75 -P max_depth=30
 ```
-- Find the best-trained model and save it to the Model Registry, name the Model Registry LaptopPricePrediction and stage the model to staging
+## Streamlit Web App (./WebApp)
+- Find the best-trained model and save it to the Model Registry, name the Model Registry LaptopPriceDetection and stage the model to "staging"
 ![Model Register](/images/2.png)
 ![Model Register](/images/3.png)
 
 - Now create the virtual environment for the web application and run it
 
 ```bash
+cd ./WebApp
 virtualenv venv
 ./venv/Scripts/activate
-pip install -r "/Web App/requirements.txt"
-streamlit run "/Web App/WebApp.py"
+pip install -r requirements.txt
 ```
-
+```bash
+streamlit run ./WebApp.py
+```
+## API
+- Create a conda virtual environement and active it
+```bash
+cd ./LaptopAPI
+conda env create -f conda.yaml
+conda activate laptopapi
+```
+- launch the API
+```bash
+uvicorn main:app
+```
 ## links
-- **MLFlow:**    http://localhost:9090
+- **MLflow UI:**    http://localhost:5000
 - **Web Application:**  http://localhost:8501
 - **Minio:**  http://localhost:9001
+- **API ENDPOINT:** http://localhost:8000
 
 ## Built With
 
-- MLFlow
+- MLflow
 - Scikit-learn
 - Streamlit
+- FastAPI
 
 
 ## Author
