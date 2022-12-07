@@ -8,6 +8,7 @@ model = mlflow.sklearn.load_model(
     model_uri=f"models:/LaptopPriceDetection/Staging"
 )
 
+
 class UserRequestIn(BaseModel):
     Company: str
     TypeName: str
